@@ -1,2 +1,2 @@
 # Azure
-Small utility scrips
+Small utility scripts and templates
