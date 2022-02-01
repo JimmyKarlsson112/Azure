@@ -1,0 +1,2 @@
+# Azure
+Small utility scrips
