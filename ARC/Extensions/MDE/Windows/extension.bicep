@@ -17,7 +17,7 @@ resource vm 'Microsoft.HybridCompute/machines@2021-05-20' existing = {
 resource mde 'Microsoft.HybridCompute/machines/extensions@2021-05-20' = {
   name: 'MDE.Windows'
   parent: vm
-  location: 'westeurope'
+  location: resourceGroup().location
    properties: {
       autoUpgradeMinorVersion: true
       //enableAutomaticUpgrade: true
