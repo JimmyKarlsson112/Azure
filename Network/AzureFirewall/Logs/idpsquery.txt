@@ -1,0 +1,6 @@
+AzureDiagnostics 
+| where ResourceType == "AZUREFIREWALLS"
+| where OperationName == "AzureFirewallIDSLog"
+| parse msg_s with Protocol " request from" SourceIP ":" SourcePort " to " TargetIP ":" TargetPort ". Action:" Action". Signature: " Signature ". IDS:" Reason 
+| project TimeGenerated, Protocol, SourceIP, SourcePort, TargetIP, TargetPort, Action, Signature, Reason 
+| sort by TimeGenerated
