@@ -8,3 +8,4 @@ You will need to gather the onboarding script and convert them to Base64. The sc
 ## Scaleset gotchas ##
 Adding the MDE extension to a current scale set, only the new vm instances will get the MDE installed. To remediate current VM instances you need to upgrade them (that will cause them to reboot)
 
+Thanks to @latj for inspiration and testing
