@@ -14,7 +14,7 @@ param (
     $Path = ".\"
 )
 $date = Get-Date -Format "yyyyMMddHHmm"
-$vms = Get-AzConnectedMachine | select-object -First 10
+$vms = Get-AzConnectedMachine #| select-object -First 10
 $collection = @()
 
 foreach($vm in $vms)
