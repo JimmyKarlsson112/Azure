@@ -177,8 +177,9 @@ $script = @({
         echo "task already exists"
     }
     else {
+        $random = Get-Random -Minimum 6 -Maximum 11
         $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-NoProfile -NoLogo -NonInteractive -WindowStyle Hidden  -ExecutionPolicy Bypass -File C:\arc\arcupdate.ps1'
-        $trigger =  New-ScheduledTaskTrigger -Daily -At 9am
+        $trigger =  New-ScheduledTaskTrigger -Daily -At $random"pm"
     
         Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskname -Description "Check for updates for Arc agent" -RunLevel Highest -Force -User "System"
     }
