@@ -1,9 +1,4 @@
-<#
-    Creates a scheduled task on the servers that will check for updates each day and update it for Windows servers
-    Prefered method is still to do this via Microsoft Update
-#>
-
-$script = @({
+﻿
 
 
     [CmdletBinding()]
@@ -87,15 +82,18 @@ $script = @({
         try {
             if ($AltDownload) {
                 if ($Proxy) {
-                    Invoke-WebRequest -UseBasicParsing -Proxy $Proxy -Uri $AltDownload -OutFile AzureConnectedMachineAgent.msi
+                    Invoke-WebRequest -UseBasicParsing -Proxy $Proxy -Uri $AltDownload -OutFile 
+AzureConnectedMachineAgent.msi
                 } else {
                     Invoke-WebRequest -UseBasicParsing -Uri $AltDownload -OutFile AzureConnectedMachineAgent.msi
                 }
         } else {
                 if ($Proxy) {
-                    Invoke-WebRequest -UseBasicParsing -Proxy $Proxy -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile AzureConnectedMachineAgent.msi	
+                    Invoke-WebRequest -UseBasicParsing -Proxy $Proxy -Uri https://aka.ms/AzureConnectedMachineAgent 
+-OutFile AzureConnectedMachineAgent.msi	
                 } else {
-                    Invoke-WebRequest -UseBasicParsing -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile AzureConnectedMachineAgent.msi	
+                    Invoke-WebRequest -UseBasicParsing -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile 
+AzureConnectedMachineAgent.msi	
                 }
             }
         }
@@ -111,7 +109,8 @@ $script = @({
         {# Install the package
             echo "Installing"
             Write-Verbose -Message "Installing agent package" -Verbose
-            $exitCode = (Start-Process -FilePath msiexec.exe -ArgumentList @("/i", "AzureConnectedMachineAgent.msi" , "/l*v", "installationlog.txt", "/qn") -Wait -Passthru).ExitCode
+            $exitCode = (Start-Process -FilePath msiexec.exe -ArgumentList @("/i", "AzureConnectedMachineAgent.msi" , 
+"/l*v", "installationlog.txt", "/qn") -Wait -Passthru).ExitCode
             if ($exitCode -ne 0) {
                 $message = (net helpmsg $exitCode)        
                 $errorcode="AZCM0149"
@@ -155,32 +154,4 @@ $script = @({
     Write-Host "Installation of azcmagent completed successfully"
     
     exit 0
-    })
     
-    $filepath = 'C:\arc\arcupdate.ps1'
-    $taskname = 'UpdateArcAgent'
-    
-    #Create file
-    If((Test-Path $filepath))
-    {
-        echo "$filepath already exists"
-    }
-    else {
-        New-Item -Path 'C:\arc\arcupdate.ps1' -Force
-    }
-    
-    #Write content to file, for each run it will just replace current content
-    Out-File -FilePath 'C:\arc\arcupdate.ps1' -InputObject $script -Force -Encoding utf8
-    #$script >> 'C:\arc\arcupdate.ps1'
-    
-    If((Get-ScheduledTask -TaskName $taskname -ErrorAction SilentlyContinue))
-    {
-        echo "task already exists"
-    }
-    else {
-        $random = Get-Random -Minimum 6 -Maximum 11
-        $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-NoProfile -NoLogo -NonInteractive -WindowStyle Hidden  -ExecutionPolicy Bypass -File C:\arc\arcupdate.ps1' -WorkingDirectory "c:\arc\"
-        $trigger =  New-ScheduledTaskTrigger -Daily -At $random"pm"
-    
-        Register-ScheduledTask -Action $action -Trigger $trigger -TaskName $taskname -Description "Check for updates for Arc agent" -RunLevel Highest -Force -User "System"
-    }
