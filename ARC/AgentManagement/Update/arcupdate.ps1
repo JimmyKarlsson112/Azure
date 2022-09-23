@@ -82,18 +82,15 @@
         try {
             if ($AltDownload) {
                 if ($Proxy) {
-                    Invoke-WebRequest -UseBasicParsing -Proxy $Proxy -Uri $AltDownload -OutFile 
-AzureConnectedMachineAgent.msi
+                    Invoke-WebRequest -UseBasicParsing -Proxy $Proxy -Uri $AltDownload -OutFile AzureConnectedMachineAgent.msi
                 } else {
                     Invoke-WebRequest -UseBasicParsing -Uri $AltDownload -OutFile AzureConnectedMachineAgent.msi
                 }
         } else {
                 if ($Proxy) {
-                    Invoke-WebRequest -UseBasicParsing -Proxy $Proxy -Uri https://aka.ms/AzureConnectedMachineAgent 
--OutFile AzureConnectedMachineAgent.msi	
+                    Invoke-WebRequest -UseBasicParsing -Proxy $Proxy -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile AzureConnectedMachineAgent.msi	
                 } else {
-                    Invoke-WebRequest -UseBasicParsing -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile 
-AzureConnectedMachineAgent.msi	
+                    Invoke-WebRequest -UseBasicParsing -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile AzureConnectedMachineAgent.msi	
                 }
             }
         }
@@ -109,8 +106,7 @@ AzureConnectedMachineAgent.msi
         {# Install the package
             echo "Installing"
             Write-Verbose -Message "Installing agent package" -Verbose
-            $exitCode = (Start-Process -FilePath msiexec.exe -ArgumentList @("/i", "AzureConnectedMachineAgent.msi" , 
-"/l*v", "installationlog.txt", "/qn") -Wait -Passthru).ExitCode
+            $exitCode = (Start-Process -FilePath msiexec.exe -ArgumentList @("/i", "AzureConnectedMachineAgent.msi" , "/l*v", "installationlog.txt", "/qn") -Wait -Passthru).ExitCode
             if ($exitCode -ne 0) {
                 $message = (net helpmsg $exitCode)        
                 $errorcode="AZCM0149"
