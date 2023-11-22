@@ -43,8 +43,8 @@ resource hubtospoke 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@20
   parent: hub
   properties: {
     allowVirtualNetworkAccess: true
-    allowForwardedTraffic: false
-    allowGatewayTransit: false
+    allowForwardedTraffic: true
+    allowGatewayTransit: true
     useRemoteGateways: false
     remoteVirtualNetwork: {
       id: spoke.id
@@ -57,9 +57,9 @@ resource spoketohub 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@20
   parent: spoke
   properties: {
     allowVirtualNetworkAccess: true
-    allowForwardedTraffic: false
+    allowForwardedTraffic: true
     allowGatewayTransit: false
-    useRemoteGateways: false
+    useRemoteGateways: true
     remoteVirtualNetwork: {
       id: hub.id
     }
